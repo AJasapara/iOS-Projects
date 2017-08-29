@@ -38,6 +38,9 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
     
     // UIImagePickerControllerDelegate
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        photoImageView.image = UIImage(named: "defaultPhoto")
+        mealNameLabel.text = "You didn't select a picture!"
+        nameTextField.text = "So we have chosen Pickle Rick for you!"
         dismiss(animated: true, completion: nil)
     }
     
