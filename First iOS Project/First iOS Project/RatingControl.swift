@@ -38,17 +38,20 @@ import UIKit
     }
     
     private func setupButtons() {
+        // Clears old buttons
         for button in ratingButtons {
             removeArrangedSubview(button)
             button.removeFromSuperview()
         }
         ratingButtons.removeAll()
         
+        // Sets images for buttons
         let bundle = Bundle(for: type(of: self))
         let filledStar = UIImage(named: "filledStar", in: bundle, compatibleWith: self.traitCollection)
         let emptyStar = UIImage(named:"emptyStar", in: bundle, compatibleWith: self.traitCollection)
         let highlightedStar = UIImage(named:"highlightedStar", in: bundle, compatibleWith: self.traitCollection)
         
+        // Adds buttons
         for _ in 0..<starCount {
             let button = UIButton()
             button.setImage(emptyStar, for: .normal)
@@ -62,15 +65,17 @@ import UIKit
             addArrangedSubview(button)
             ratingButtons.append(button)
         }
-        
         updateButtonSelectionStates()
     }
     
+    // Sets rating based on button tapped
     func ratingButtonTapped(button: UIButton){
         guard let index = ratingButtons.index(of: button) else {
             fatalError("The button, \(button), is not in the ratingButtons array: \(ratingButtons)")
         }
         button.accessibilityLabel = "Set \(index + 1) star rating"
+        
+        // Clears or sets rating
         if index + 1 == rating {
             rating = 0
         }
@@ -79,6 +84,7 @@ import UIKit
         }
     }
     
+    // Selects all buttons up to the one that was tapped
     private func updateButtonSelectionStates() {
         for (index, button) in ratingButtons.enumerated() {
             button.isSelected = index < rating
