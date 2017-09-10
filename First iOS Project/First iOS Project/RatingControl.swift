@@ -10,7 +10,11 @@ import UIKit
 
 @IBDesignable class RatingControl: UIStackView {
     private var ratingButtons = [UIButton]()
-    var rating = 0
+    var rating = 0 {
+        didSet{
+            updateButtonSelectionStates()
+        }
+    }
     
     @IBInspectable var starSize: CGSize = CGSize(width: 44.0, height: 44.0){
         didSet {
@@ -58,10 +62,26 @@ import UIKit
             addArrangedSubview(button)
             ratingButtons.append(button)
         }
+        
+        updateButtonSelectionStates()
     }
     
     func ratingButtonTapped(button: UIButton){
-        print("Button Pressed")
+        guard let index = ratingButtons.index(of: button) else {
+            fatalError("The button, \(button), is not in the ratingButtons array: \(ratingButtons)")
+        }
+        if index + 1 == rating {
+            rating = 0
+        }
+        else {
+            rating = index + 1
+        }
+    }
+    
+    private func updateButtonSelectionStates() {
+        for (index, button) in ratingButtons.enumerated() {
+            button.isSelected = index < rating
+        }
     }
 
 }
